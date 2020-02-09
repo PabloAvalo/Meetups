@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Meetup.Api.Migrations
 {
     [DbContext(typeof(MeetUpContext))]
-    [Migration("20200208231535_Init")]
+    [Migration("20200208233921_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,7 +63,7 @@ namespace Meetup.Api.Migrations
 
                     b.HasIndex("TopicoId");
 
-                    b.ToTable("Eventos");
+                    b.ToTable("Evento");
                 });
 
             modelBuilder.Entity("Meetup.Api.Entities.Inscripcion", b =>
@@ -88,7 +88,7 @@ namespace Meetup.Api.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Inscripciones");
+                    b.ToTable("Inscripcion");
                 });
 
             modelBuilder.Entity("Meetup.Api.Entities.Notificacion", b =>
@@ -113,7 +113,7 @@ namespace Meetup.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notificacions");
+                    b.ToTable("Notificacion");
                 });
 
             modelBuilder.Entity("Meetup.Api.Entities.Topico", b =>
@@ -135,7 +135,7 @@ namespace Meetup.Api.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Topicos");
+                    b.ToTable("Topico");
                 });
 
             modelBuilder.Entity("Meetup.Api.Entities.Usuario", b =>
@@ -163,7 +163,7 @@ namespace Meetup.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuarios");
+                    b.ToTable("Usuario");
                 });
 
             modelBuilder.Entity("Meetup.Api.Entities.Evento", b =>

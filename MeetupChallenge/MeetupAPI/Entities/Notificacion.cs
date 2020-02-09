@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Meetup.Api.Entities
 {
+    [Table("Notificacion")]
     public class Notificacion
     {
         [Key]

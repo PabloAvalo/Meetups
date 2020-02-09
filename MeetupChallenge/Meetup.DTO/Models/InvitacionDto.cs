@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BussinesLogic.Models
+namespace Meetup.Dto.Models
 {
     public class InvitacionDto
     {

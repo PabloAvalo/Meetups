@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Meetup.Api.Entities
 {
+    [Table("Usuario")]
     public class Usuario
     {
 

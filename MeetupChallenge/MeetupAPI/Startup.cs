@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Meetup.Api.Context;
+using Meetup.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +37,14 @@ namespace MeetupAPI
                     o.UseSqlServer(connection);
                 }
                 );
+
+            services.AddScoped<IEventoRepository, EventoRepository> ();
+            services.AddScoped<INotificacionRepository, NotificacionRepository>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IInscripcionRepository, InscripcionRepository>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
         }
 

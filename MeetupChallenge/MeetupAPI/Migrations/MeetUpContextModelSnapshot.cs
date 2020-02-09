@@ -61,7 +61,7 @@ namespace Meetup.Api.Migrations
 
                     b.HasIndex("TopicoId");
 
-                    b.ToTable("Eventos");
+                    b.ToTable("Evento");
                 });
 
             modelBuilder.Entity("Meetup.Api.Entities.Inscripcion", b =>
@@ -86,7 +86,7 @@ namespace Meetup.Api.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Inscripciones");
+                    b.ToTable("Inscripcion");
                 });
 
             modelBuilder.Entity("Meetup.Api.Entities.Notificacion", b =>
@@ -111,7 +111,7 @@ namespace Meetup.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notificacions");
+                    b.ToTable("Notificacion");
                 });
 
             modelBuilder.Entity("Meetup.Api.Entities.Topico", b =>
@@ -133,7 +133,7 @@ namespace Meetup.Api.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Topicos");
+                    b.ToTable("Topico");
                 });
 
             modelBuilder.Entity("Meetup.Api.Entities.Usuario", b =>
@@ -161,7 +161,7 @@ namespace Meetup.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuarios");
+                    b.ToTable("Usuario");
                 });
 
             modelBuilder.Entity("Meetup.Api.Entities.Evento", b =>
