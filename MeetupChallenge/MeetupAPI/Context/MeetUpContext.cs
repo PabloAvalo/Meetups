@@ -22,6 +22,7 @@ namespace Meetup.Api.Context
         public DbSet<Notificacion> Notificacions { get; set; }
         public DbSet<Topico> Topicos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Configuracion> Configuracions { get; set; }
 
         //invites
     }

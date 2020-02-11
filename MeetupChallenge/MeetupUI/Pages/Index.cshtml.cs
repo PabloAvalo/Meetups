@@ -21,7 +21,7 @@ namespace MeetupUI.Pages
 
         public async Task OnGetAsync()
         {
-            await ClimaProcessor.GetClima();
+            //await ClimaProcessor.GetClima();
         }
     }
 }

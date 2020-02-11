@@ -17,9 +17,7 @@ namespace Meetup.Api.Services
 
         void Remove(int eventoId);
         bool Save();
-
-
-
-
+        bool Exists(int id);
+        object GetEventosByUserId(int userId);
     }
 }

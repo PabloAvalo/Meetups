@@ -4,14 +4,16 @@ using Meetup.Api.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Meetup.Api.Migrations
 {
     [DbContext(typeof(MeetUpContext))]
-    partial class MeetUpContextModelSnapshot : ModelSnapshot
+    [Migration("20200210211141_config-identity")]
+    partial class configidentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,20 +28,12 @@ namespace Meetup.Api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Key")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UsuarioId")
+                    b.Property<int>("TopicoId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Configuracions");
+                    b.ToTable("Configuracion");
                 });
 
             modelBuilder.Entity("Meetup.Api.Entities.Evento", b =>
@@ -149,7 +143,12 @@ namespace Meetup.Api.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
+                    b.Property<int?>("TopicoId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TopicoId");
 
                     b.ToTable("Topico");
                 });
@@ -160,6 +159,9 @@ namespace Meetup.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ConfiguracionId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Contraseña")
                         .IsRequired()
@@ -179,16 +181,9 @@ namespace Meetup.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuario");
-                });
+                    b.HasIndex("ConfiguracionId");
 
-            modelBuilder.Entity("Meetup.Api.Entities.Configuracion", b =>
-                {
-                    b.HasOne("Meetup.Api.Entities.Usuario", "Usuario")
-                        .WithMany("Configuracion")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("Usuario");
                 });
 
             modelBuilder.Entity("Meetup.Api.Entities.Evento", b =>
@@ -217,6 +212,22 @@ namespace Meetup.Api.Migrations
                     b.HasOne("Meetup.Api.Entities.Usuario", "Usuario")
                         .WithMany("Inscripciones")
                         .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Meetup.Api.Entities.Topico", b =>
+                {
+                    b.HasOne("Meetup.Api.Entities.Configuracion", null)
+                        .WithMany("TopicosFavoritos")
+                        .HasForeignKey("TopicoId");
+                });
+
+            modelBuilder.Entity("Meetup.Api.Entities.Usuario", b =>
+                {
+                    b.HasOne("Meetup.Api.Entities.Configuracion", "Configuracion")
+                        .WithMany()
+                        .HasForeignKey("ConfiguracionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

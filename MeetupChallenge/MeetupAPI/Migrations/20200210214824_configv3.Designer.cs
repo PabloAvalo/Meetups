@@ -4,14 +4,16 @@ using Meetup.Api.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Meetup.Api.Migrations
 {
     [DbContext(typeof(MeetUpContext))]
-    partial class MeetUpContextModelSnapshot : ModelSnapshot
+    [Migration("20200210214824_configv3")]
+    partial class configv3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,6 +163,9 @@ namespace Meetup.Api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ConfiguracionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Contraseña")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -179,13 +184,15 @@ namespace Meetup.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ConfiguracionId");
+
                     b.ToTable("Usuario");
                 });
 
             modelBuilder.Entity("Meetup.Api.Entities.Configuracion", b =>
                 {
                     b.HasOne("Meetup.Api.Entities.Usuario", "Usuario")
-                        .WithMany("Configuracion")
+                        .WithMany()
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -217,6 +224,15 @@ namespace Meetup.Api.Migrations
                     b.HasOne("Meetup.Api.Entities.Usuario", "Usuario")
                         .WithMany("Inscripciones")
                         .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Meetup.Api.Entities.Usuario", b =>
+                {
+                    b.HasOne("Meetup.Api.Entities.Configuracion", "Configuracion")
+                        .WithMany()
+                        .HasForeignKey("ConfiguracionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

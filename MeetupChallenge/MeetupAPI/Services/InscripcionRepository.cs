@@ -11,6 +11,7 @@ namespace Meetup.Api.Services
     {
         private readonly MeetUpContext _context;
 
+
         public InscripcionRepository(MeetUpContext context)
         {
             _context = context;
@@ -46,14 +47,24 @@ namespace Meetup.Api.Services
             return _context.SaveChanges() > 0;
         }
 
-        public void Update(int inscripcionId, Inscripcion inscripcion)
-        {
-            
-        }
 
         public Inscripcion GetInscripcion(int inscripcionId)
         {
             return _context.Inscripciones.Find(inscripcionId);
+        }
+
+        public void Checkin(int inscripcionId)
+        {
+            var resp = _context.Inscripciones.Find(inscripcionId);
+            _context.Attach(resp);
+            resp.CheckIn = true;
+
+            
+        }
+
+        public bool Exists(int usuarioId, int eventoId)
+        {
+            return _context.Inscripciones.Any(i => i.UsuarioId == usuarioId && i.EventoId == eventoId);
         }
     }
 }

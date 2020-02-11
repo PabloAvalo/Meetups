@@ -10,8 +10,7 @@ namespace Meetup.Dto.Models
 
         public int Id { get; set; }
         public string Titulo { get; set; }
-
-      
+              
         public string Mensaje { get; set; }
 
         public string Link { get; set; }

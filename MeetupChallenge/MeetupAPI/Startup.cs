@@ -33,17 +33,27 @@ namespace MeetupAPI
 
             string connection = Configuration["ConnectionStrings:Meetup"];
             services.AddDbContext<MeetUpContext>(
-                o => {
+                o =>
+                {
                     o.UseSqlServer(connection);
                 }
                 );
 
-            services.AddScoped<IEventoRepository, EventoRepository> ();
+            services.AddScoped<IEventoRepository, EventoRepository>();
             services.AddScoped<INotificacionRepository, NotificacionRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IInscripcionRepository, InscripcionRepository>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddSwaggerGen(setupAction =>
+            {
+                setupAction.SwaggerDoc("MeetupSpecification", new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title = "Meetup API",
+                    Description = "Esta es la especificacion de Meetup Api",
+
+                });
+            });
 
 
         }
@@ -60,9 +70,20 @@ namespace MeetupAPI
 
             app.UseRouting();
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(setupAction =>
+            {
+                setupAction.SwaggerEndpoint(
+                    "/swagger/MeetupSpecification/swagger.json",
+                    "Meetup API"
+                    );
+                setupAction.RoutePrefix = "";
+            });
+
             app.UseAuthorization();
 
-            
+
 
             app.UseEndpoints(endpoints =>
             {

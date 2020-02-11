@@ -24,9 +24,8 @@ namespace Meetup.Api.Entities
         [Required]
         public string Contraseña { get; set; }
 
-        public virtual ICollection<Topico> TopicosDePreferencias { get; set; } = new List<Topico>();
-
-        public virtual ICollection<Inscripcion> Inscripcions { get; set; } = new List<Inscripcion>();
+        public virtual ICollection<Configuracion> Configuracion { get; set; } = new List<Configuracion>();
+        public virtual ICollection<Inscripcion> Inscripciones { get; set; } = new List<Inscripcion>();
 
         public bool IsAdmin { get; set; }
 

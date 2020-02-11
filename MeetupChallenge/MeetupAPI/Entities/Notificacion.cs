@@ -23,8 +23,7 @@ namespace Meetup.Api.Entities
         [MaxLength(100)]
         public string Mensaje { get; set; }
 
-        public string Link { get; set; }
-
+   
         //public Evento Evento
 
 

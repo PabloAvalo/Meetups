@@ -17,8 +17,9 @@ namespace Meetup.Api.Services
         void AddUsuario(Usuario usuario);
 
         bool Save();
+        bool Exists(string correo);
 
-
-
+        bool Exists(string correo, string contraseña);
+        IEnumerable<Usuario> ObtenerUsuarios();
     }
 }

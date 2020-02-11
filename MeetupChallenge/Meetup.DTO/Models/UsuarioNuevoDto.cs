@@ -8,15 +8,15 @@ namespace Meetup.Dto.Models
     public class UsuarioNuevoDto
     {
     
-        [Required]
+        [Required(ErrorMessage ="El nombre es obligatorio")]
         [MaxLength(20)]
         public string Nombre { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="El usuario es obligatorio")]
         public string Correo { get; set; }
         [Required]
+        [MinLength(8,ErrorMessage = "La contraseña debe poseer mas de 8 caracteres")]
         public string Contraseña { get; set; }
-
         public bool IsAdmin { get; set; }
     }
 }

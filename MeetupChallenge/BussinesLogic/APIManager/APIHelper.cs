@@ -20,7 +20,7 @@ namespace BussinesLogic.APIManager
 
         public static void ClearHeader() {
 
-            APIHelper.ApiClient.DefaultRequestHeaders.Clear();
+            
         }
 
   

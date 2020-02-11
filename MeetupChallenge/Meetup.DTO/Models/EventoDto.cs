@@ -13,8 +13,6 @@ namespace Meetup.Dto.Models
         public string Descripcion { get; set; }
 
         public TopicoDto Topico { get; set; }
-        public int TopicoId { get; set; }
-
 
         public string Ciudad { get; set; }
 
@@ -22,9 +20,7 @@ namespace Meetup.Dto.Models
 
         public DateTime FechaActualizacion { get; set; }
 
-        public ICollection<InscripcionNuevaDto> Inscriptos { get; set; } = new List<InscripcionNuevaDto>();
-
-        public UsuarioDto Organizador { get; set; }
+        public ICollection<InscripcionNuevaDto> Inscriptos { get; set; }
 
     }
 }

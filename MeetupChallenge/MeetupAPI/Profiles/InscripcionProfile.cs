@@ -14,6 +14,7 @@ namespace Meetup.Api.Profiles
         {
             CreateMap<Inscripcion, InscripcionDto>();
             CreateMap<Inscripcion, InscripcionNuevaDto>();
+            CreateMap<InscripcionNuevaDto, Inscripcion>();
         }
 
     }

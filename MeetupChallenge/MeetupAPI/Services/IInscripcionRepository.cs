@@ -1,4 +1,5 @@
 ﻿using Meetup.Api.Entities;
+using Meetup.Dto.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,12 @@ namespace Meetup.Api.Services
 {
     public interface IInscripcionRepository
     {
-
+  
         void AddInscripcion(Inscripcion inscripcion);
 
         void Remove(int inscripcionId);
 
-        void Update(int inscripcionId, Inscripcion inscripcion);
+        void Checkin(int inscripcionId);
 
         Inscripcion GetInscripcion(int inscripcionId);
 
@@ -22,8 +23,6 @@ namespace Meetup.Api.Services
         IEnumerable<Inscripcion> GetInscriptosDeUsuario(int usuarioId);
 
         bool Save();
-
-
-
+        bool Exists(int usuarioId, int eventoId);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Meetup.Api.Context;
 using Meetup.Api.Entities;
-
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,24 +23,40 @@ namespace Meetup.Api.Services
             
         }
 
+        public bool Exists(int id)
+        {
+            return _context.Eventos.Any(e => e.Id == id);
+        }
+
         public Evento GetEventoById(int id)
         {
-            return _context.Eventos.Where(e => e.Id == id).FirstOrDefault();
+            return GetFullEvento().Where( e => e.Id == id).FirstOrDefault();
         }
 
         public IEnumerable<Evento> GetEventos()
-        {
-            return _context.Eventos.ToList();
+        {   
+            return _context.Eventos.Include(e => e.Topico).ToList();
         }
 
         public IEnumerable<Evento> GetEventos(DateTime date)
         {
-            return _context.Eventos.Where(e => e.Fecha.Date == date.Date);
+            return _context.Eventos.Include(e => e.Topico).Where(e => e.Fecha.Date == date.Date);
         }
+
+        
 
         public IEnumerable<Evento> GetEventosByOrganizerId(int organizadorId)
         {
-            return _context.Eventos.Where(e => e.OrganizadorId == organizadorId);
+            return _context.Eventos.Include( e => e.Topico).Where(e => e.OrganizadorId == organizadorId).ToList();
+        }
+
+        public object GetEventosByUserId(int userId)
+        {
+            List<int> eventoIds = _context.Inscripciones.Where(i => i.UsuarioId == userId)
+                                                        .Select( e => e.EventoId).ToList();
+
+            return _context.Eventos.Where(e => eventoIds.Contains(e.Id)).ToList();
+
         }
 
         public void Remove(int eventoId)
@@ -55,6 +71,18 @@ namespace Meetup.Api.Services
 
         public void UpdateEvento(Evento evento)
         {
+            _context.Entry(evento).State = EntityState.Modified;
+
+            //deberia modificar clases relacionadas
+        }
+
+        private IQueryable<Evento> GetFullEvento() {
+
+            var full =  _context.Eventos.Include(e => e.Topico)
+                                   .Include(e => e.Inscriptos);
+
+            return full;
+
         }
 
 

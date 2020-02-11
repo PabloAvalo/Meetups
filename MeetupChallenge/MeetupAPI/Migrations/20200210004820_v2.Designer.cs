@@ -4,43 +4,22 @@ using Meetup.Api.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Meetup.Api.Migrations
 {
     [DbContext(typeof(MeetUpContext))]
-    partial class MeetUpContextModelSnapshot : ModelSnapshot
+    [Migration("20200210004820_v2")]
+    partial class v2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Meetup.Api.Entities.Configuracion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Key")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Configuracions");
-                });
 
             modelBuilder.Entity("Meetup.Api.Entities.Evento", b =>
                 {
@@ -149,7 +128,12 @@ namespace Meetup.Api.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Topico");
                 });
@@ -182,15 +166,6 @@ namespace Meetup.Api.Migrations
                     b.ToTable("Usuario");
                 });
 
-            modelBuilder.Entity("Meetup.Api.Entities.Configuracion", b =>
-                {
-                    b.HasOne("Meetup.Api.Entities.Usuario", "Usuario")
-                        .WithMany("Configuracion")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Meetup.Api.Entities.Evento", b =>
                 {
                     b.HasOne("Meetup.Api.Entities.Usuario", "Organizador")
@@ -215,10 +190,17 @@ namespace Meetup.Api.Migrations
                         .IsRequired();
 
                     b.HasOne("Meetup.Api.Entities.Usuario", "Usuario")
-                        .WithMany("Inscripciones")
+                        .WithMany("Inscripcions")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Meetup.Api.Entities.Topico", b =>
+                {
+                    b.HasOne("Meetup.Api.Entities.Usuario", null)
+                        .WithMany("TopicosDePreferencias")
+                        .HasForeignKey("UsuarioId");
                 });
 #pragma warning restore 612, 618
         }

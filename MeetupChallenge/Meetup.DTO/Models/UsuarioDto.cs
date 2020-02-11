@@ -12,10 +12,8 @@ namespace Meetup.Dto.Models
 
     
         public string Correo { get; set; }
-   
-        public string Contraseña { get; set; }
 
-        public ICollection<TopicoDto> TopicosDePreferencias { get; set; } = new List<TopicoDto>();
+        public IEnumerable<ConfiguracionDto> Configuracion { get; set; } = new List <ConfiguracionDto>();
 
         public bool IsAdmin { get; set; }
     }

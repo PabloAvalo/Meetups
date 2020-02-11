@@ -7,26 +7,19 @@ using System.Threading.Tasks;
 
 namespace Meetup.Api.Entities
 {
-    [Table("Inscripcion")]
-    public class Inscripcion
+    public class Configuracion
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        [ForeignKey("EventoId")]
-        [Required]
-
-        public Evento Evento { get; set; }
-        public int EventoId { get; set; }
+        public string Key { get; set; }
+        public string Value { get; set; }
 
         [ForeignKey("UsuarioId")]
-        [Required]
         public Usuario Usuario { get; set; }
         public int UsuarioId { get; set; }
 
-        public bool CheckIn { get; set; }
 
+    
     }
 }

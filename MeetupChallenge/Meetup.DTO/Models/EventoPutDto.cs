@@ -5,12 +5,13 @@ using System.Text;
 
 namespace Meetup.Dto.Models
 {
-    public class EventoNuevoDto
+    public class EventoPutDto
     {
+        [Required(ErrorMessage = "You must provide an Id")]
+     
+        public int Id { get; set; }
 
-
-
-        [Required(ErrorMessage ="You must provide a name")]
+        [Required(ErrorMessage = "You must provide a name")]
         [MaxLength(20)]
         public string Nombre { get; set; }
 
@@ -20,7 +21,7 @@ namespace Meetup.Dto.Models
 
         [Required]
         public int TopicoId { get; set; }
-   
+
 
         [Required]
         [MaxLength(30)]
@@ -31,5 +32,7 @@ namespace Meetup.Dto.Models
 
         [Required]
         public int OrganizadorId { get; set; }
+
+
     }
 }

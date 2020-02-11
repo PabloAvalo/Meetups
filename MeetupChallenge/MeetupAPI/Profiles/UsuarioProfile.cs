@@ -13,6 +13,7 @@ namespace Meetup.Api.Profiles
         public UsuarioProfile()
         {
             CreateMap<Usuario, UsuarioNuevoDto>();
+            CreateMap<UsuarioNuevoDto, Usuario>();
             CreateMap<Usuario, UsuarioDto>();
         }
     }
