@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Meetup.Dto.Models;
+using System.Threading.Tasks;
 
-namespace BussinesLogic.Controllers
+namespace Meetup.BussinesLogic.Controllers
 {
     public interface IUsuarioController
     {
-        void Login(string usuario, string contraseña);
-
-        void SignUp(string datosUsu);
-
-        void LogOut();
-
-        void CheckIn(int idEvento);
-
-        void InscribirseAEvento(int idEvento);
-
-        void FavearTopico();
-        void EliminarTopico();
-
-
+        Task AddTopicoFavorito(int usuarioId, int topicoId);
+        Task HacerCheckIn(int inscripcionId);
+        Task<UsuarioDto> Login(string usuario, string contraseña);
+        Task RegistrarInscripcion(int usuarioId, int eventoId);
+        Task SignUp(string correo, string contraseña, bool isAdmin, string nombre);
     }
 }

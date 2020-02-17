@@ -21,5 +21,7 @@ namespace Meetup.Api.Services
 
         bool Exists(string correo, string contraseña);
         IEnumerable<Usuario> ObtenerUsuarios();
+        IEnumerable<Notificacion> ObtenerNotificaciones(int id);
+       
     }
 }

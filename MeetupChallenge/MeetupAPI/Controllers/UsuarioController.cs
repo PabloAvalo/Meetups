@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Meetup.Api.Services;
 using Meetup.Dto.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,10 @@ namespace Meetup.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
+
+    //Se podria agregar identity para manejar los usuario de forma mas prolija
+
     public class UsuarioController : ControllerBase
     {
         private readonly IMapper mapper;
@@ -21,12 +26,18 @@ namespace Meetup.Api.Controllers
             usuarioRepository = repo;
         }
 
+        /// <summary>
+        /// Registra un nuevo usuario
+        /// </summary>
+        /// <param name="usuarioNuevo"></param>
+        /// <returns></returns>
+
         [HttpPost]
         [Route("SingUp")]
         public IActionResult SingUp(UsuarioNuevoDto usuarioNuevo)
         {
 
-            if (usuarioRepository.Exists(usuarioNuevo.Nombre))
+            if (usuarioRepository.Exists(usuarioNuevo.Correo))
             {
                 return BadRequest("Usuario ya registrado");
             }
@@ -48,24 +59,33 @@ namespace Meetup.Api.Controllers
 
         }
 
+        /// <summary>
+        /// Obtiene el usuario logueado
+        /// </summary>
+        /// <param name="usuario"></param>
+        /// <returns></returns>
+
         [HttpPost]
         [Route("login")]
         public IActionResult Login(UsuarioLoginDto usuario)
         {
 
-            if (!usuarioRepository.Exists(usuario.Usuario, usuario.Contraseña))
+            if (!usuarioRepository.Exists(usuario.Correo, usuario.Contraseña))
             {
 
                 return BadRequest("Usuario inexistente");
             }
 
-            var usu = usuarioRepository.ObtenerUsuario(usuario.Usuario, usuario.Contraseña);
+            var usu = usuarioRepository.ObtenerUsuario(usuario.Correo, usuario.Contraseña);
 
             return Ok(mapper.Map<UsuarioDto>(usu));
 
         }
 
-
+        /// <summary>
+        /// Obtiene todos los usuario que usan meetup
+        /// </summary>
+        /// <returns></returns>
 
         [HttpGet]
         
@@ -73,6 +93,13 @@ namespace Meetup.Api.Controllers
         {
             return Ok(mapper.Map<IEnumerable<UsuarioDto>>(usuarioRepository.ObtenerUsuarios()));
         }
+
+        /// <summary>
+        /// Permite agregar topicos que le interesan al usuario
+        /// *Podria agregar otras configuraciones*
+        /// </summary>
+        /// <param name="configuracion"></param>
+        /// <returns></returns>
 
         [HttpPost]
         [Route("Preferencias")]
@@ -92,6 +119,28 @@ namespace Meetup.Api.Controllers
             return Ok($"Se agrego la configuracion");
         
         }
+
+
+
+        [HttpGet("{id}/Notificaciones")]
+     
+
+        public IActionResult GetNotificacionesDeUsuario(int id)
+        {
+
+            if (usuarioRepository.ObtenerUsuario(id) == null)
+
+                return NotFound();
+
+
+            var notificaciones = usuarioRepository.ObtenerNotificaciones(id);
+
+            return Ok(mapper.Map<List<NotificacionDto>>(notificaciones));
+
+
+        }
+
+
 
 
     }

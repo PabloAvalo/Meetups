@@ -17,6 +17,5 @@ namespace Meetup.Api.Entities
         [MaxLength(20)]
         public string Nombre { get; set; }
 
-        public string Descripcion { get; set; }
     }
 }

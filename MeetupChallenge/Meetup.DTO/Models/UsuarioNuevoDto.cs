@@ -12,7 +12,8 @@ namespace Meetup.Dto.Models
         [MaxLength(20)]
         public string Nombre { get; set; }
 
-        [Required(ErrorMessage ="El usuario es obligatorio")]
+        [Required(ErrorMessage ="El correo es obligatorio")]
+        [EmailAddress(ErrorMessage = "Formato  de correo incorrecto")]
         public string Correo { get; set; }
         [Required]
         [MinLength(8,ErrorMessage = "La contraseña debe poseer mas de 8 caracteres")]

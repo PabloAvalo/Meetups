@@ -14,7 +14,7 @@ namespace Meetup.Api.Services
 
         void Remove(int inscripcionId);
 
-        void Checkin(int inscripcionId);
+        //void Checkin(int inscripcionId);
 
         Inscripcion GetInscripcion(int inscripcionId);
 

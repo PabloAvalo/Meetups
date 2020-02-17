@@ -15,7 +15,7 @@ namespace MeetupUI
         public static void Main(string[] args)
         {
             
-            APIHelper.InitializeApiClient();
+            
             CreateHostBuilder(args).Build().Run();
         }
 

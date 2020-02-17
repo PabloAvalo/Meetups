@@ -22,5 +22,6 @@ namespace Meetup.Dto.Models
 
         public ICollection<InscripcionNuevaDto> Inscriptos { get; set; }
 
+        public string Sucursal { get; set; }
     }
 }

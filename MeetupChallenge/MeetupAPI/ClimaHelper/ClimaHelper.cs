@@ -15,6 +15,7 @@ namespace Meetup.Api.ClimaHelper
         private const string HOST = "community-open-weather-map.p.rapidapi.com";
         private const string BASE_URL = "https://community-open-weather-map.p.rapidapi.com/forecast/";
 
+
         public static async Task<List<ClimaDto>> GetClimaAsync(string ubicacion) {
 
             string url = BASE_URL + GetParametros(ubicacion);

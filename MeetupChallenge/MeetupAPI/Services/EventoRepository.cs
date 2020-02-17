@@ -17,10 +17,18 @@ namespace Meetup.Api.Services
             _context = context;
         }
 
-        public void AddEvento(Evento evento)
+        public bool AddEvento(Evento evento)
         {
+            if (_context.Topicos.Where(t => t.Id == evento.TopicoId).Count() == 0)
+                return false;
+
+            if (_context.Usuarios.Where(u => u.Id == evento.OrganizadorId) .Count () == 0)
+
+                return false;
+
             _context.Eventos.Add(evento);
-            
+            return true;
+
         }
 
         public bool Exists(int id)
@@ -30,11 +38,11 @@ namespace Meetup.Api.Services
 
         public Evento GetEventoById(int id)
         {
-            return GetFullEvento().Where( e => e.Id == id).FirstOrDefault();
+            return GetFullEvento().Where(e => e.Id == id).FirstOrDefault();
         }
 
         public IEnumerable<Evento> GetEventos()
-        {   
+        {
             return _context.Eventos.Include(e => e.Topico).ToList();
         }
 
@@ -43,30 +51,36 @@ namespace Meetup.Api.Services
             return _context.Eventos.Include(e => e.Topico).Where(e => e.Fecha.Date == date.Date);
         }
 
-        
+
 
         public IEnumerable<Evento> GetEventosByOrganizerId(int organizadorId)
         {
-            return _context.Eventos.Include( e => e.Topico).Where(e => e.OrganizadorId == organizadorId).ToList();
+            return _context.Eventos.Include(e => e.Topico).Where(e => e.OrganizadorId == organizadorId).ToList();
         }
 
         public object GetEventosByUserId(int userId)
         {
             List<int> eventoIds = _context.Inscripciones.Where(i => i.UsuarioId == userId)
-                                                        .Select( e => e.EventoId).ToList();
+                                                        .Select(e => e.EventoId).ToList();
 
             return _context.Eventos.Where(e => eventoIds.Contains(e.Id)).ToList();
 
         }
 
-        public void Remove(int eventoId)
+        public IEnumerable<Evento> GetProximosEventos()
         {
-            throw new NotImplementedException();
+            return _context.Eventos.Include(e => e.Topico).
+                                    Where(e => e.Fecha > DateTime.Now).ToList();
+        }
+
+        public void Remove(int id)
+        {
+            _context.Eventos.Remove(_context.Eventos.Find(id));
         }
 
         public bool Save()
         {
-           return _context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
 
         public void UpdateEvento(Evento evento)
@@ -76,9 +90,10 @@ namespace Meetup.Api.Services
             //deberia modificar clases relacionadas
         }
 
-        private IQueryable<Evento> GetFullEvento() {
+        private IQueryable<Evento> GetFullEvento()
+        {
 
-            var full =  _context.Eventos.Include(e => e.Topico)
+            var full = _context.Eventos.Include(e => e.Topico)
                                    .Include(e => e.Inscriptos);
 
             return full;

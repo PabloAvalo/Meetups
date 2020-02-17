@@ -7,6 +7,7 @@ namespace Meetup.Dto.Models
 {
     public class InscripcionNuevaDto
     {
+
         [Required]
         public int EventoId { get; set; }
 

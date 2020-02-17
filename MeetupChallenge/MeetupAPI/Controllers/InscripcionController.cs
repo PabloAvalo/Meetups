@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Meetup.Api.Services;
 using Meetup.Dto.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Meetup.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class InscripcionController : ControllerBase
     {
         private readonly IInscripcionRepository inscripcionRepository;
@@ -26,6 +28,13 @@ namespace Meetup.Api.Controllers
 
             this.mapper = mapper;
         }
+
+        /// <summary>
+        /// Genera una nueva inscripcion de un usuario a una Meeting
+        /// 
+        /// </summary>
+        /// <param name="inscripcion"></param>
+        /// <returns></returns>
 
         [HttpPost]
         public IActionResult Post(InscripcionNuevaDto inscripcion) {
@@ -56,7 +65,14 @@ namespace Meetup.Api.Controllers
         
         }
 
-        [HttpPut]
+
+        /// <summary>
+        /// Confirma asistencia de usuario a una meeting
+        /// </summary>
+        /// <param name="inscripcionId"> id de la inscripcion</param>
+        /// <returns></returns>
+
+        [HttpPut("{inscripcionId}/Checkin")]
         public IActionResult CheckIn(int inscripcionId) {
 
             var inscripcion = inscripcionRepository.GetInscripcion(inscripcionId);
@@ -65,6 +81,13 @@ namespace Meetup.Api.Controllers
 
                 return NotFound();
                 
+            }
+
+            if(inscripcion.Evento.Fecha > DateTime.Now)
+            {
+
+                return BadRequest("La meeting a la que intenta hacer checkin no se ha realizado");
+
             }
 
             inscripcion.CheckIn = true;

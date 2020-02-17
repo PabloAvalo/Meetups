@@ -15,6 +15,8 @@ namespace Meetup.Dto.Models
 
         public IEnumerable<ConfiguracionDto> Configuracion { get; set; } = new List <ConfiguracionDto>();
 
+        public IEnumerable<InscripcionDto> Inscripciones { get; set; } = new List<InscripcionDto>();
+
         public bool IsAdmin { get; set; }
     }
 }

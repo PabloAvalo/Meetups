@@ -10,7 +10,7 @@ namespace Meetup.Api.Services
     {
         void AddNotificacion(Notificacion notificacion);
 
-        IEnumerable<Notificacion> GetNotificacionsByUser(int userId);
+        //IEnumerable<Notificacion> GetNotificacionsByUser(int userId);
 
         bool Save();
 

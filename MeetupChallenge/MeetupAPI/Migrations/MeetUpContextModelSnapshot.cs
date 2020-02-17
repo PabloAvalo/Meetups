@@ -75,6 +75,9 @@ namespace Meetup.Api.Migrations
                     b.Property<int>("OrganizadorId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Sucursal")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("TopicoId")
                         .HasColumnType("int");
 
@@ -119,6 +122,12 @@ namespace Meetup.Api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("EventoId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Leida")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Mensaje")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
@@ -129,7 +138,14 @@ namespace Meetup.Api.Migrations
                         .HasColumnType("nvarchar(15)")
                         .HasMaxLength(15);
 
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("EventoId");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Notificacion");
                 });
@@ -140,9 +156,6 @@ namespace Meetup.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -216,6 +229,21 @@ namespace Meetup.Api.Migrations
 
                     b.HasOne("Meetup.Api.Entities.Usuario", "Usuario")
                         .WithMany("Inscripciones")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Meetup.Api.Entities.Notificacion", b =>
+                {
+                    b.HasOne("Meetup.Api.Entities.Evento", "Evento")
+                        .WithMany()
+                        .HasForeignKey("EventoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Meetup.Api.Entities.Usuario", "Usuario")
+                        .WithMany()
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

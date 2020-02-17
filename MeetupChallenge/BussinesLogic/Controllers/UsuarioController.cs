@@ -1,5 +1,7 @@
 ﻿using BussinesLogic.APIManager;
 using BussinesLogic.Controllers;
+using IdentityModel.Client;
+using Meetup.BussinesLogic.APIManager;
 using Meetup.Dto.Models;
 using Newtonsoft.Json;
 using System;
@@ -10,14 +12,23 @@ using System.Threading.Tasks;
 
 namespace Meetup.BussinesLogic.Controllers
 {
-    public static class UsuarioController
+    public class UsuarioController : IUsuarioController
 
     {
+        private const string Topico = "Topic"; //deberia ser un enum
+
         private const string baseUrl = "https://localhost:44372/api";
-        public static async Task HacerCheckIn(int eventoId)
+        public async Task HacerCheckIn(int inscripcionId)
         {
-            InscripcionDto dto = new InscripcionDto { EventoId = eventoId, CheckIn = true };
-            using (var response = await APIHelper.ApiClient.PutAsJsonAsync($"/inscripcion/{baseUrl}/{eventoId}", dto))
+
+            TokenResponse tokenResponse = await IdentityController.GetToken();
+
+            var apiClient = APIHelper.GetApiClient();
+
+            apiClient.SetBearerToken(tokenResponse.AccessToken);
+
+
+            using (var response = await apiClient.PostAsync(baseUrl + $"/inscripcion/{inscripcionId}/CheckIn", null))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -32,15 +43,46 @@ namespace Meetup.BussinesLogic.Controllers
         //    throw new NotImplementedException();
         //}
 
-        //public void FavearTopico()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        //eliminar Inscripcion 
 
-        public static async Task RegistrarInscripcion(int usuarioId, int eventoId)
+        public async Task AddTopicoFavorito(int usuarioId, int topicoId)
         {
+
+            TokenResponse tokenResponse = await IdentityController.GetToken();
+
+            var apiClient = APIHelper.GetApiClient();
+
+            apiClient.SetBearerToken(tokenResponse.AccessToken);
+
+            ConfiguracionNuevaDto configuracion = new ConfiguracionNuevaDto
+            {
+                Key = "Topic",
+                UsuarioId = usuarioId,
+                Value = topicoId.ToString()
+            };
+
+            using (var response = await apiClient.PostAsJsonAsync("/Usuarios/preferencias", configuracion))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+
+
+
+        }
+
+        public async Task RegistrarInscripcion(int usuarioId, int eventoId)
+        {
+            TokenResponse tokenResponse = await IdentityController.GetToken();
+
+            var apiClient = APIHelper.GetApiClient();
+
+            apiClient.SetBearerToken(tokenResponse.AccessToken);
+
             InscripcionNuevaDto dto = new InscripcionNuevaDto() { UsuarioId = usuarioId, EventoId = eventoId };
-            using (var response = await APIHelper.ApiClient.PostAsJsonAsync("/inscripcion", dto))
+            using (HttpResponseMessage response = await apiClient.PostAsJsonAsync("/inscripcion", dto))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -50,12 +92,19 @@ namespace Meetup.BussinesLogic.Controllers
             }
         }
 
-        public static async Task<UsuarioDto> Login(string usuario, string contraseña)
+        public async Task<UsuarioDto> Login(string usuario, string contraseña)
         {
             UsuarioLoginDto dto = new UsuarioLoginDto() { Usuario = usuario, Contraseña = contraseña };
             UsuarioDto loggedInUsuario = new UsuarioDto();
-            
-            using (var response = await APIHelper.ApiClient.PostAsJsonAsync("/Usuarios", dto))
+
+            TokenResponse tokenResponse = await IdentityController.GetToken();
+
+            var apiClient = APIHelper.GetApiClient();
+
+            apiClient.SetBearerToken(tokenResponse.AccessToken);
+
+
+            using (var response = await apiClient.PostAsJsonAsync("/Usuarios", dto))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -72,8 +121,7 @@ namespace Meetup.BussinesLogic.Controllers
             return loggedInUsuario;
         }
 
-
-        public static async Task SignUp(string correo, string contraseña, bool isAdmin, string nombre)
+        public async Task SignUp(string correo, string contraseña, bool isAdmin, string nombre)
         {
 
             UsuarioNuevoDto dto = new UsuarioNuevoDto()
@@ -84,7 +132,14 @@ namespace Meetup.BussinesLogic.Controllers
                 Nombre = nombre
             };
 
-            using (var response = await APIHelper.ApiClient.PostAsJsonAsync($"/Usuarios", dto))
+            TokenResponse tokenResponse = await IdentityController.GetToken();
+
+            var apiClient = APIHelper.GetApiClient();
+
+            apiClient.SetBearerToken(tokenResponse.AccessToken);
+
+
+            using (var response = await apiClient.PostAsJsonAsync($"/Usuarios", dto))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -92,5 +147,10 @@ namespace Meetup.BussinesLogic.Controllers
                 }
             }
         }
+
+        //obtenerNotificaciones (int userId); 
+
+
+
     }
 }

@@ -32,9 +32,19 @@ namespace Meetup.Api.Services
             return _context.Usuarios.Any(u => u.Correo == correo && u.Contraseña == contraseña);
         }
 
-        public Usuario ObtenerUsuario(string user, string contraseña)
+
+
+        public IEnumerable<Notificacion> ObtenerNotificaciones(int id)
         {
-            var usu =  _context.Usuarios.Where(u => u.Correo == user && u.Contraseña == contraseña).Include( c => c.Configuracion).SingleOrDefault();
+            return _context.Notificacions.Include(n => n.Evento).Where(n => n.UsuarioId == id).ToList();
+        }
+
+        public Usuario ObtenerUsuario(string correo, string contraseña)
+        {
+            var usu =  _context.Usuarios.Where(u => u.Correo == correo && u.Contraseña == contraseña)
+                .Include( c => c.Configuracion)
+                .Include( i => i.Inscripciones)
+                .SingleOrDefault();
             return usu;
         }
 
@@ -46,6 +56,12 @@ namespace Meetup.Api.Services
         public IEnumerable<Usuario> ObtenerUsuarios()
         {
             return _context.Usuarios.ToList();
+        }
+
+        public void QuitarTopicoDePreferencias(int id) {
+
+            _context.Configuracions.Remove(_context.Configuracions.Find(id));
+
         }
 
         public bool Save()

@@ -23,8 +23,19 @@ namespace Meetup.Api.Entities
         [MaxLength(100)]
         public string Mensaje { get; set; }
 
-   
-        //public Evento Evento
+        public bool Leida { get; set; }
+
+
+        [ForeignKey("UsuarioId")]
+
+        public Usuario Usuario { get; set; }
+        public int UsuarioId { get; set; }
+
+        [ForeignKey("EventoId")]
+        public Evento Evento { get; set; }
+
+        public int EventoId { get; set; }
+
 
 
     }

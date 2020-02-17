@@ -30,6 +30,8 @@ namespace Meetup.Api.Entities
         [MaxLength(30)]
         public string Ciudad { get; set; }
 
+        public string Sucursal { get; set; }
+
         [Required]
         public DateTime Fecha { get; set; }
 

@@ -21,10 +21,10 @@ namespace Meetup.Api.Services
             _context.Notificacions.Add(notificacion);
         }
 
-        public IEnumerable<Notificacion> GetNotificacionsByUser(int userId)
-        {
-            throw new Exception("not implemented");
-        }
+        //public IEnumerable<Notificacion> GetNotificacionsByUser(int userId)
+        //{
+            
+        //}
 
         public bool Save()
         {

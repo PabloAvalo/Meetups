@@ -9,19 +9,28 @@ namespace BussinesLogic.APIManager
     public static class APIHelper
     {
 
-        public static HttpClient ApiClient { get; set; }
+        private static HttpClient ApiClient { get; set; }
 
-        public static void InitializeApiClient()
+        
+        private static void InitializeApiClient()
         {
             ApiClient = new HttpClient();
             ApiClient.DefaultRequestHeaders.Clear();
             ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static void ClearHeader() {
+        public static HttpClient GetApiClient() {
 
+            if (ApiClient == null) {
+                
+                InitializeApiClient();
+            }
             
-        }
+            return ApiClient;
+
+        } 
+
+
 
   
     }

@@ -22,6 +22,11 @@ namespace Meetup.Api.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Obtiene los posibles topicos de las meetings
+        /// </summary>
+        /// <returns></returns>
+
         [HttpGet]
         public IActionResult GetTopicos() {
 
@@ -29,6 +34,21 @@ namespace Meetup.Api.Controllers
 
             return Ok(_mapper.Map<IEnumerable<TopicoDto>>(topicos));
             
+        }
+
+        [HttpPost]
+
+        public IActionResult Post(string nombre) {
+
+            Entities.Topico topico = new Entities.Topico() { Nombre = nombre };
+            
+            _context.Topicos.Add(topico);
+
+            _context.SaveChanges();
+
+            return Ok(new { Id = topico.Id, topico = topico });
+
+
         }
 
     }
