@@ -30,7 +30,11 @@ namespace BussinesLogic.APIManager
 
         } 
 
+        public static string MeetupUrl = "https://localhost:44372/api";
 
+       
+
+        //
 
   
     }

@@ -12,7 +12,7 @@ namespace Meetup.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
 
     //Se podria agregar identity para manejar los usuario de forma mas prolija
 

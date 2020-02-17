@@ -132,7 +132,7 @@ namespace Meetup.Api.Controllers
 
             EventoDto response = _mapper.Map<EventoDto>(entity);
 
-            return CreatedAtRoute("GetEvento",
+            return Ok(
                 new { Id = entity.Id, response }
                 );
 

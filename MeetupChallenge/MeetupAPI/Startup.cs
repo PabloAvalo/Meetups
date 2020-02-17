@@ -39,7 +39,7 @@ namespace MeetupAPI
             services.AddAuthentication("Bearer")
             .AddJwtBearer("Bearer", options =>
             {
-                options.Authority = "http://localhost:5000";
+                options.Authority = "https://meetup-identity.azurewebsites.net";
                 options.RequireHttpsMetadata = false;
 
                 options.Audience = "MeetupApi";

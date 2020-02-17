@@ -12,7 +12,7 @@ namespace Meetup.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class InscripcionController : ControllerBase
     {
         private readonly IInscripcionRepository inscripcionRepository;

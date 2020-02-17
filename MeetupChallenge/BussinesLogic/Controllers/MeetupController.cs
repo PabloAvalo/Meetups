@@ -14,10 +14,11 @@ namespace BussinesLogic.Controllers
     {
 
         //private const string baseUrl = "http://localhost:5001/api/Eventos";
-        private const string baseUrl = "https://localhost:44372/api/Eventos";
+        private  string baseUrl = APIHelper.MeetupUrl + "/Eventos";
+        //private  string baseUrl= "https://meetupapi.azurewebsites.net/api/Eventos";
         public async Task<string> ObtenerIdentity()
         {
-
+            //esto lo hace en todos los metodos, ver de refactorerlo.
             TokenResponse tokenResponse = await IdentityController.GetToken();
 
             var apiClient = APIHelper.GetApiClient();
@@ -26,7 +27,7 @@ namespace BussinesLogic.Controllers
 
             Console.WriteLine(tokenResponse.AccessToken);
 
-            var response = await apiClient.GetAsync("http://localhost:5001/identity");
+            var response = await apiClient.GetAsync("https://meetup-identity.azurewebsites.net/");
 
             Console.WriteLine(response);
 

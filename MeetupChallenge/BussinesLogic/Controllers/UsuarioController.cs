@@ -17,7 +17,7 @@ namespace Meetup.BussinesLogic.Controllers
     {
         private const string Topico = "Topic"; //deberia ser un enum
 
-        private const string baseUrl = "https://localhost:44372/api";
+        private  string baseUrl = APIHelper.MeetupUrl;
         public async Task HacerCheckIn(int inscripcionId)
         {
 
@@ -38,12 +38,6 @@ namespace Meetup.BussinesLogic.Controllers
 
         }
 
-        //public void EliminarTopico()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //eliminar Inscripcion 
 
         public async Task AddTopicoFavorito(int usuarioId, int topicoId)
         {
@@ -92,9 +86,9 @@ namespace Meetup.BussinesLogic.Controllers
             }
         }
 
-        public async Task<UsuarioDto> Login(string usuario, string contraseña)
+        public async Task<UsuarioDto> Login(string correo, string contraseña)
         {
-            UsuarioLoginDto dto = new UsuarioLoginDto() { Usuario = usuario, Contraseña = contraseña };
+            UsuarioLoginDto dto = new UsuarioLoginDto() { Correo = correo, Contraseña = contraseña };
             UsuarioDto loggedInUsuario = new UsuarioDto();
 
             TokenResponse tokenResponse = await IdentityController.GetToken();

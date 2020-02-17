@@ -22,7 +22,7 @@ namespace Meetup.Notificaciones
         {
 
             string query = "SELECT i.UsuarioId, i.EventoId FROM Inscripcion i INNER JOIN Evento e on i.EventoId = e.Id " +
-                            $"WHERE e.Fecha < '{DateTime.Now}' ";
+                            $"WHERE e.Fecha > '{DateTime.Now}' ";
 
             SqlCommand command = new SqlCommand(query, db.Conn);
             command.CommandType = CommandType.Text;
